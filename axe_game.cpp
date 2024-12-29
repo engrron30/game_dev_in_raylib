@@ -13,6 +13,8 @@ int main()
     while (!WindowShouldClose()) {
         BeginDrawing();                 // we can move and minimize the window around
         ClearBackground(RED);           // adds red background in canvas
+
+        DrawCircle(175, 100, 25, BLUE);
         EndDrawing();
     }
     return 0;
