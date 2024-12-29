@@ -10,9 +10,9 @@ int main()
     int width = 700;
     InitWindow(length, width, "AXE GAME");
 
-    while (true) {
-        BeginDrawing();
-        ClearBackground(RED);
+    while (!WindowShouldClose()) {
+        BeginDrawing();                 // we can move and minimize the window around
+        ClearBackground(RED);           // adds red background in canvas
         EndDrawing();
     }
     return 0;
