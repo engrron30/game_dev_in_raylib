@@ -15,20 +15,22 @@ int main()
     int circle_x = 175;
     int circle_y = 100;
 
+    SetTargetFPS(60);                   // Without this, the circle will just move so fast
     while (!WindowShouldClose()) {
         BeginDrawing();                 // we can move and minimize the window around
         ClearBackground(RED);           // adds red background in canvas
 
-        SetTargetFPS(60);               // Without this, the circle will just move so fast
         // Game logic starts here:
         DrawCircle(circle_x, circle_y, 25, BLUE);
         if (IsKeyDown(KEY_D)) {
             circle_x += 10;
         } else if (IsKeyDown(KEY_A)) {
             circle_x -= 10;
-        } 
-
-
+        } else if (IsKeyDown(KEY_W)) {
+            circle_y -= 10;
+        } else if (IsKeyDown(KEY_S)) {
+            circle_y += 10;
+        }
         // Game logic ends here!
 
         EndDrawing();
