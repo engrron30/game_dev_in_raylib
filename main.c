@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "raylib.h"
 
 int main()
@@ -15,6 +16,12 @@ int main()
     int circle_x = 175;
     int circle_y = 100;
     int radius   = 25;
+    char circle_coor[50];
+
+    int circle_x_right = circle_x + radius;
+    int circle_x_left  = circle_x - radius;
+    int circle_x_top   = circle_y - radius;
+    int circle_y_down  = circle_y + radius;
 
     // Axe coordinates
     int axe_x    = 400;
@@ -22,33 +29,45 @@ int main()
     int axe_len  = 50;
     int axe_wid  = 50;
     int direction = 10;
+    char axe_coor[50];
+
+    // Text offset
+    int text_length_offset = 150 + 120;
+    int text_width_offset  = 100 + 20;
 
     SetTargetFPS(60);                   // Without this, the circle will just move so fast
     while (!WindowShouldClose()) {
         BeginDrawing();                 // we can move and minimize the window around
-        ClearBackground(RED);           // adds red background in canvas
+        ClearBackground(RAYWHITE);           // adds red background in canvas
 
         // Circle logic starts here:
         DrawCircle(circle_x, circle_y, radius, BLUE);
         DrawRectangle(axe_x, axe_y, axe_len, axe_wid, VIOLET);
 
-        if (IsKeyDown(KEY_D) && circle_x < length - radius) {
+        // Text Logic
+        DrawText("Coordinates:", length - text_length_offset, width - text_width_offset, 40, BLACK);
+        sprintf(circle_coor, "circle:   x = %4d   y = %d", circle_x, circle_y);
+        sprintf(axe_coor,    "axe:      x = %4d   y = %d", axe_x,    axe_y);
+        DrawText(circle_coor, length - text_length_offset, width - text_width_offset + 40, 20, DARKGRAY);
+        DrawText(axe_coor,    length - text_length_offset, width - text_width_offset + 60, 20, DARKGRAY);
+
+        if (IsKeyDown(KEY_D) && circle_x < length - radius) {                   // Always subtract or add with radius to avoid the circle overlapping with borders
             circle_x += 10;
         } else if (IsKeyDown(KEY_A) && circle_x > radius) {
             circle_x -= 10;
-        } else if (IsKeyDown(KEY_W) && circle_y > radius) {
+        } else if (IsKeyDown(KEY_W) && circle_y > radius + 5) {                 // offset to avoid borders = 5
             circle_y -= 10;
-        } else if (IsKeyDown(KEY_S) && circle_y < width - radius) {
+        } else if (IsKeyDown(KEY_S) && circle_y < width - radius - 5) {
             circle_y += 10;
         }
 
-        if (axe_y > width - axe_wid || axe_y < 0) {
+        // Obstacle movement
+        if (axe_y >= width - axe_wid || axe_y < 0) {                             // Always subtract or add with axe width to avoid overlapping with window borders
             direction = -direction;
         }
         axe_y += direction;
 
         // Game logic ends here!
-
         EndDrawing();
     }
     return 0;
