@@ -53,7 +53,7 @@ int main()
             // Initialize axe edges
             int axe_x_left     = axe_x;
             int axe_x_right    = axe_x + axe_len;
-            int axe_y_up       = axe_y;
+            int axe_y_top      = axe_y;
             int axe_y_down     = axe_y + axe_len;
 
             // Print coordinates of circle and axe in lower left
@@ -79,6 +79,12 @@ int main()
                 direction = -direction;
             }
             axe_y += direction;
+
+            collision_with_axe = 
+                (circle_x_right >= axe_x_left)  &&
+                (circle_x_left  <= axe_x_right) &&
+                (circle_y_top   <= axe_y_down)  &&
+                (circle_y_down  >= axe_y_top);
 
         } else {
             DrawText("GAME OVER!", window_length / 2 - 150, window_width / 2 - 100, 40, RED);
