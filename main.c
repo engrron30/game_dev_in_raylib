@@ -34,12 +34,13 @@ int main()
     bool collision_with_axe = false;
 
     SetTargetFPS(60);                   // Without this, the circle will just move so fast
+    BeginDrawing();                 // we can move and minimize the window around
+    ClearBackground(RAYWHITE);      // adds red background in canvas
     while (!WindowShouldClose()) {
         BeginDrawing();                 // we can move and minimize the window around
         ClearBackground(RAYWHITE);      // adds red background in canvas
 
-        if (!collision_with_axe)
-        {
+        if (!collision_with_axe) {
             // Initialize objects
             DrawCircle(circle_x, circle_y, radius, BLUE);
             DrawRectangle(axe_x, axe_y, axe_len, axe_wid, VIOLET);
@@ -80,15 +81,20 @@ int main()
             }
             axe_y += direction;
 
+            // Collision detector
             collision_with_axe = 
                 (circle_x_right >= axe_x_left)  &&
                 (circle_x_left  <= axe_x_right) &&
                 (circle_y_top   <= axe_y_down)  &&
                 (circle_y_down  >= axe_y_top);
-
-        } else {
-            DrawText("GAME OVER!", window_length / 2 - 150, window_width / 2 - 100, 40, RED);
-        }
+            } else {
+                DrawCircle(circle_x, circle_y, radius, BLUE);
+                DrawRectangle(axe_x, axe_y, axe_len, axe_wid, VIOLET);
+                DrawText("Coordinates:", window_length - text_length_offset - 120, window_width - text_width_offset - 20, 40, BLACK);
+                DrawText(circle_coor, window_length - text_length_offset, window_width - text_width_offset + 40, 20, DARKGRAY);
+                DrawText(axe_coor,    window_length - text_length_offset, window_width - text_width_offset + 60, 20, DARKGRAY);
+                DrawText("GAME OVER!", window_length / 2 - 150, window_width / 2 - 100, 40, RED);
+            }
 
         // Game logic ends here!
         EndDrawing();
